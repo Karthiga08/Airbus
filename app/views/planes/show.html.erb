@@ -1,0 +1,48 @@
+<div class="plane-view text-center">
+  <div class="x-panel">
+    <h1>View Seats</h1>
+    <%= form_tag("/bookings", method: 'post') %>
+      <h5 class="pull-left">First Class</h5>
+      <br>
+       <div class="form-group col-md-12 col-sm-12 col-xs-12">
+          <ul class="no-list-style">
+            <% @first_class_seats.each_with_index do |seat, index|%>
+              <li class="col-xs-<%= 12/@first_class_seat_count %>">
+                <%= label_tag "#{seat.seat_number}"%>
+                <%= check_box_tag 'seat_id', seat&.id, @user.seats.include?(seat) %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      <hr>
+      <h5 class="pull-left">Business Class</h5>
+      <br>
+      <div class="form-group col-md-12 col-sm-12 col-xs-12">
+        <ul class="no-list-style">
+          <% @business_class_seats.each_with_index do |seat, index|%>
+            <li class="col-xs-<%= 12/@business_class_seat_count %>">
+              <%= label_tag "#{seat.seat_number}"%>
+              <%= check_box_tag 'seat_id', seat&.id, @user.seats.include?(seat) %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+      <hr>
+      <h5 class="pull-left">Economic Class</h5>
+      <br>
+      <div class="form-group col-md-12 col-sm-12 col-xs-12">
+        <ul class="no-list-style">
+          <% @economic_class_seats.each_with_index do |seat, index|%>
+            <li class="col-xs-<%= 12/@economic_class_seat_count%>">
+              <%= label_tag "#{seat.seat_number}"%>
+              <%= check_box_tag 'seat_id', seat&.id, @user.seats.include?(seat) %>
+            </li>
+          <% end %>
+         </ul>
+      </div>
+    <br>
+  </div>
+  <div class="book-ticket">
+    <%= submit_tag 'book ticket', class: 'btn btn-primary'%>
+  </div>
+</div>

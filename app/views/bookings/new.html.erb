@@ -1,0 +1,39 @@
+<div class="book-ticket text-center">
+  <div class="x-panel">
+    <h1>View Seats</h1>
+    <%= form_for(@user, url: { controller: "bookings", action: "create" }, html: { :class => "form" }, method: "post") do |user| %>
+      <h6>Fi-First Class(Price: <%=SeatCategory.find_by(name: 'First Class').price %>), Bu-Business Class(Price: <%=SeatCategory.find_by(name: 'Business Class').price %>), Ec-Economic Class(Price: <%=SeatCategory.find_by(name: 'Economic Class').price %>)</h6>
+      <div class="form-group col-md-12 col-sm-12 col-xs-12">
+          <ul class="no-list-style">
+            <%= user.collection_check_boxes(:user_seat_ids, @plane_seats, :id, :seat_number) do |b| %>
+              <li class="col-md-<%= 12/b.object.seat_category.number_of_seat_in_row%>">
+                <%= b.check_box(checked: b&.object&.is_booked, disabled: b&.object&.is_booked) %>
+                <%= b.label(id: "seat_booking"+"#{b.object.is_booked}") %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+    <hr>
+    <h1>User Details</h1>
+    <div class="row">
+      <div class="col-xs-4">
+        <%= user.label "Name"%>
+        <%= user.text_field :name, class: 'form-control', required: true %>
+      </div>
+      <div class="col-xs-4">
+        <%= user.label "Date Of Birth"%>
+        <%= user.date_field :date_of_birth, class: 'form-control store-fltr cities', required: true%>
+      </div>
+      <div class="col-xs-4">
+        <%= user.label "Gener"%>
+        <%#= user.select :gener, options_for_select([ "Male", "Female" ]), {class: 'form-control store-fltr state_val', required: true}%>
+        <%= user.select(:gener, options_for_select([ "Male", "Female" ]), {prompt: 'Select'}, { class: 'form-control store-fltr cities'}) %>
+      </div>
+    </div>
+    <br>
+    <div class="book-ticket">
+      <%= user.submit'book ticket', class: 'btn btn-primary'%>
+    </div>
+  <% end %>
+  </div>
+</div>

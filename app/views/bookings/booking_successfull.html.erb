@@ -1,0 +1,40 @@
+<div class="booked-ticket text-center">
+  <h1 class="header-text">Ticket Details</h1>
+  <div class="x-panel">
+    <div class="user-details">
+      <p class="pull-left">
+        User Name: <%= @booking_user.name%>
+        <br>
+        Travel Date: <%= @booking_user&.seats&.first&.plane&.date%>
+      </p>
+      <br>
+    </div>
+    <br>
+    <div class="x_content table-responsive">
+      <table class="table table-striped">
+        <tr>
+          <th>Plane Name</th>
+          <th>Plane Type</th>
+          <th>Travel Class</th>
+          <th>Seat Number</th>
+          <th>PNR</th>
+        </tr>
+        <% if @booking_seats.present? %>
+          <% @booking_seats.each_with_index do |booking_seat, index|%>
+            <tr>
+              <td><%= booking_seat.plane.name%></td>
+              <td><%= booking_seat.plane.plane_type%></td>
+              <td><%= booking_seat.seat_category.name%></td>
+              <td><%= booking_seat.seat_number%></td>
+              <td><%= booking_seat.pnr%></td>
+            </tr>
+          <% end %>
+          <% else %>
+            <tr>
+              <td align="center" colspan="7"><p>Records Not Found </p></td>
+            </tr>
+          <% end %>
+      </table>
+    </div>
+  </div>
+</div>
