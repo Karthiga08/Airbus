@@ -6,7 +6,13 @@ function cancelTicket(seat, user){
     url: url,
     data: { seat_id: seat, id: user },
     success: function(data) {
-      window.location.reload();
+      var url = window.location.href;
+      if (url.indexOf('?') > -1){
+         url += '&user_id='+user
+      }else{
+         url += '?user_id='+user
+      }
+      window.location.href = url;
     },
     error: function (response) {
       console.log("error")
