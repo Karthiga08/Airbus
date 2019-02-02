@@ -5,7 +5,7 @@ class PlanesController < ApplicationController
     flash[:error] = ''
     if params[:pnr].present?
       seat = Seat.find_by(pnr: params[:pnr])
-      if seat.present?
+      if seat.present? && seat.users.any?
         redirect_to plane_path(seat&.plane&.id, pnr: params[:pnr])
       else
         flash[:error] = "Your PNR is not match with any Plane"
