@@ -18,7 +18,7 @@ class BookingsController < ApplicationController
     else
       plane = Plane.find(params[:user][:plane_id])
       @plane_seats = plane.seats
-      flash[:error] = "You should select the seat"
+      flash[:error] = "You should select the available seat"
       render 'new'
     end
   end
