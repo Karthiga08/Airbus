@@ -12,7 +12,9 @@
               Seat Number: <%= seat.seat_number%>
             </div>
             <div class="col-xs-3">
-              <%= link_to 'Upgrade Your Ticket', '#', class: 'img-dash bg-green-tag', title: 'Upgrade ticket', data: { categories: @plane.seat_categories.reject{ |k| k.id >= seat.seat_category.id} },"data-toggle" => "modal", 'data-target' => '#upgradeTicket', 'data-id' => seat.id, :onclick => 'loadUpperClass(this)' %>
+              <% unless ["First Class"].include?(seat.seat_category.name)%>
+                <%= link_to 'Upgrade Your Ticket', '#', class: 'img-dash bg-green-tag ', title: 'Upgrade ticket', data: { categories: @plane.seat_categories.reject{ |k| k.id >= seat.seat_category.id} },"data-toggle" => "modal", 'data-target' => '#upgradeTicket', 'data-id' => seat.id, :onclick => 'loadUpperClass(this)',disabled: true%>
+              <% end %>
             </div>
             <div class="col-xs-3">
               <button class="img-dash bg-red-tag" onclick="cancelTicket('<%=seat.id.as_json%>','<%=seat.users.first.id %>' );">Cancel your Ticket</button>

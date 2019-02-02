@@ -38,7 +38,7 @@ class BookingsController < ApplicationController
 
   def booking_successfull
     @booking_user = User.find(params[:id])
-    @booking_seats = @booking_user.seats
+    @booking_seats = @booking_user.seats.uniq
   end
 
   private

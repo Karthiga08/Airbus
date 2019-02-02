@@ -17,7 +17,7 @@ class PlanesController < ApplicationController
     if params[:pnr].present?
     seat = Seat.find_by(pnr: params[:pnr])
     @user = seat.users.first
-    @user_selected_seats = @user.seats
+    @user_selected_seats = @user.seats&.uniq
     end
     first_class = @plane.first_categories
     business_class = @plane.business_categories
