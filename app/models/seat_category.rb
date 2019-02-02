@@ -21,6 +21,6 @@ class SeatCategory < ApplicationRecord
   end
 
   def self.price_amount(category)
-    find_by(name: category).price
+    find_by(name: category)&.price
   end
 end

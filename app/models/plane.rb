@@ -1,6 +1,6 @@
 class Plane < ApplicationRecord
   #validations
-  validates_presence_of :name, :plane_type, :origin, :destination
+  validates_presence_of :name, :plane_type, :plane_time, :origin, :destination
 
   #associationss
   has_many :seat_categories, dependent: :destroy
@@ -31,7 +31,7 @@ class Plane < ApplicationRecord
   end
 
   def plane_takeoff
-    plane_time.strftime("at %I:%M%p")
+    plane_time&.strftime("at %I:%M%p")
   end
 
   private
