@@ -92,7 +92,3 @@ function bookUpgradeTicket(user_id){
   }
 });
 }
-
-$(document).ready(function() {
-  $('.error').fadeOut(5000);
-})
