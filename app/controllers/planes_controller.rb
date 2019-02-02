@@ -2,6 +2,7 @@ class PlanesController < ApplicationController
 
   def index
     @planes = Plane.find_match(params)
+    flash[:error] = ''
     if params[:pnr].present?
       seat = Seat.find_by(pnr: params[:pnr])
       if seat.present?

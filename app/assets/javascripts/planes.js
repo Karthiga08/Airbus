@@ -46,7 +46,8 @@ function changeCategoryList(plane_id){
       $.each(data.seats, function (key, value) {
         var lib = search(value.seat_category_id, data.categories)
         var col_al = 12/lib.number_of_seat_in_row
-        seat_data += '<li class="col-xs-' + col_al + '"><input type="checkbox" name="seat_id" value='+ value.id + '>'+value.seat_number+'<br></li>'
+        var check_box_value = value.is_booked? 'disabled' : 'enabled'
+        seat_data += '<li class="col-xs-' + col_al + '"><input type="checkbox" name="seat_id" value='+ value.id + ' '+ check_box_value + '>'+value.seat_number+'<br></li>'
       })
       $('#vacancy-seat-list').html(seat_data);
     },
@@ -86,4 +87,6 @@ function bookUpgradeTicket(user_id){
 });
 }
 
-
+$(document).ready(function() {
+  $('.error').fadeOut(5000);
+})

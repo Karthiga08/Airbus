@@ -4,6 +4,7 @@ class BookingsController < ApplicationController
     plane = Plane.find(params[:plane_id])
     @plane_seats = plane.seats
     @user = User.new
+    flash[:error] = ''
   end
 
   def create
