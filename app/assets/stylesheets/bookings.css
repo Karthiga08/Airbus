@@ -1,5 +1,5 @@
 body{
- background: url("1.jpg");
+ background: url("back-ground.jpg");
 }
 
 .header-text {
@@ -21,4 +21,20 @@ body{
   opacity: 1;
   transition: all .2s ease;
   border-radius: 4px;
+}
+
+#vacancy-seat-list{
+  border: 1px gray !important;
+}
+
+#seat_bookingtrue {
+  color: green;
+}
+
+.booking-seats {
+  background-color: #b8bfd4 !important;
+}
+
+.price-cls {
+  padding-right: 5px !important;
 }

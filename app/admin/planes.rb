@@ -1,6 +1,6 @@
 ActiveAdmin.register Plane do
   config.clear_sidebar_sections!
-  permit_params :name, :plane_type, :date, :origin, :destination, seat_categories_attributes: %i(id name number_of_seat_in_row number_of_rows price)
+  permit_params :name, :plane_type, :date, :plane_time, :origin, :destination, seat_categories_attributes: %i(id name number_of_seat_in_row number_of_rows price)
 
   index title: 'Plane Management' do
     column 'Name' do |plane|
@@ -11,6 +11,9 @@ ActiveAdmin.register Plane do
     end
     column 'Date' do |plane|
       plane.try(:date)
+    end
+    column 'Plane Takeoff Time' do |plane|
+      plane.plane_takeoff
     end
     column 'Origin' do |plane|
       plane.try(:origin)
@@ -26,13 +29,14 @@ ActiveAdmin.register Plane do
       f.input :name
       f.input :plane_type
       f.input :date, as: :datepicker, datepicker_options: { min_date: "Date.today" }
+      f.input :plane_time, label: 'Plane Takeoff Time'
       f.input :origin
       f.input :destination
       f.has_many :seat_categories, for: [:seat_categories, f.object.seat_categories.present? ? f.object.seat_categories : 3.times { f.object.seat_categories.build }], new_record: false do |ff|
         ff.input :name, label: 'Class Name', as: :select, collection: ['First Class', 'Business Class', 'Economic Class'], prompt: 'Select'
         ff.input :number_of_seat_in_row
         ff.input :number_of_rows
-        ff.input :price
+        ff.input :price, label: 'Price($)'
       end
       f.actions
     end
@@ -48,6 +52,9 @@ ActiveAdmin.register Plane do
     end
     row 'Date' do |plane|
       plane.try(:date)
+    end
+    row 'Plane Takeoff Time' do |plane|
+      plane.plane_takeoff
     end
     row 'Origin' do |plane|
       plane.try(:origin)

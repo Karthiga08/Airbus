@@ -1,48 +1,79 @@
 <div class="plane-view text-center">
   <div class="x-panel">
-    <h1>View Seats</h1>
-    <%= form_tag("/bookings", method: 'post') %>
-      <h5 class="pull-left">First Class</h5>
-      <br>
-       <div class="form-group col-md-12 col-sm-12 col-xs-12">
-          <ul class="no-list-style">
-            <% @first_class_seats.each_with_index do |seat, index|%>
-              <li class="col-xs-<%= 12/@first_class_seat_count %>">
-                <%= label_tag "#{seat.seat_number}"%>
-                <%= check_box_tag 'seat_id', seat&.id, @user.seats.include?(seat) %>
-              </li>
-            <% end %>
-          </ul>
-        </div>
-      <hr>
-      <h5 class="pull-left">Business Class</h5>
-      <br>
-      <div class="form-group col-md-12 col-sm-12 col-xs-12">
+    <h2>Your Booked Tickets</h2>
+    <%= link_to "Search a Plane", planes_path, class: 'btn btn-primary pull-right'%>
+    <% @user_selected_seats.each do |seat| %>
+      <div class= "x_panel assigned_course_list">
+          <div class="row">
+            <div class="col-xs-3" id= "pnr_number" value="<%= seat.pnr.as_json%>">
+              PNR Number: <%= seat.pnr%>
+            </div>
+             <div class="col-xs-2">
+              Seat Number: <%= seat.seat_number%>
+            </div>
+            <div class="col-xs-3">
+              <%= link_to 'Upgrade Your Ticket', '#', class: 'img-dash bg-green-tag', title: 'Upgrade ticket', data: { categories: @plane.seat_categories.reject{ |k| k.id >= seat.seat_category.id} },"data-toggle" => "modal", 'data-target' => '#upgradeTicket', 'data-id' => seat.id, :onclick => 'loadUpperClass(this)' %>
+            </div>
+            <div class="col-xs-3">
+              <button class="img-dash bg-red-tag" onclick="cancelTicket('<%=seat.id.as_json%>','<%=seat.users.first.id %>' );">Cancel your Ticket</button>
+            </div>
+          </div>
+      </div>
+    <% end %>
+  </div>
+  <div class="x-panel">
+    <h2>View Seat</h2>
+      <span class="purple price-cls">First Class Price(Fi): ($) <%= price_list('First Class')%></span>
+      <span class="aero price-cls">Business Class Price(Bu): ($) <%= price_list('Business Class')%></span>
+      <span class="blue price-cls">Economic Class Price(EC): ($) <%= price_list('Economic Class')%></span>
+    <br>
+    <%= form_for(@user, url: { controller: "bookings", action: "update" }, html: { :class => "form" }, method: "put") do |user| %>
+      <div class="form-group col-md-12 col-sm-12 col-xs-12 booking-seats">
         <ul class="no-list-style">
-          <% @business_class_seats.each_with_index do |seat, index|%>
-            <li class="col-xs-<%= 12/@business_class_seat_count %>">
-              <%= label_tag "#{seat.seat_number}"%>
-              <%= check_box_tag 'seat_id', seat&.id, @user.seats.include?(seat) %>
+          <%= user.collection_check_boxes(:user_seat_ids, @plane_seats || [], :id, :seat_number) do |b| %>
+            <li class="col-md-<%= 12/b.object.seat_category.number_of_seat_in_row%>">
+              <%= b.check_box(checked: b&.object&.is_booked, disabled: b&.object&.is_booked) %>
+              <%= b.label(id: "seat_booking"+"#{b.object.is_booked}") %>
             </li>
           <% end %>
         </ul>
       </div>
-      <hr>
-      <h5 class="pull-left">Economic Class</h5>
-      <br>
-      <div class="form-group col-md-12 col-sm-12 col-xs-12">
-        <ul class="no-list-style">
-          <% @economic_class_seats.each_with_index do |seat, index|%>
-            <li class="col-xs-<%= 12/@economic_class_seat_count%>">
-              <%= label_tag "#{seat.seat_number}"%>
-              <%= check_box_tag 'seat_id', seat&.id, @user.seats.include?(seat) %>
-            </li>
-          <% end %>
-         </ul>
+      <%= user.submit'book ticket', class: 'btn btn-primary'%>
+    <%end%>
+  </div>
+
+<div class="modal fade delete-str" id="upgradeTicket" tabindex="-1" role="dialog" aria-labelledby="upgradeTicketLabel">
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content loginuser">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Travel with more Comfort?</h3>
       </div>
-    <br>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="error">
+           Note: If you upgrade your seats, You have to pay the price for respective class. Your old seat will be cancelled.
+          </label>
+        </div>
+        <div class="form-group col-md-12 col-sm-12 col-xs-12">
+          <label for="state">
+            Category Name
+            <star>*</star>
+          </label>
+          <select name="" id="category-list" class="form-control" onchange="changeCategoryList('<%= @plane.id.as_json%>')">
+          </select>
+        </div>
+        <div class="form-group col-md-12 col-sm-12 col-xs-12">
+          <ul class="no-list-style" id="vacancy-seat-list">
+          </ul>
+        </div>
+        <div class="text-center">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="bookUpgradeTicket('<%= @user.id%>');">Upgrade Ticket</button>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="book-ticket">
-    <%= submit_tag 'book ticket', class: 'btn btn-primary'%>
-  </div>
+</div>
+
 </div>

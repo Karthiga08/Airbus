@@ -19,4 +19,8 @@ class SeatCategory < ApplicationRecord
       seats.create(plane_id: plane_id, seat_category_id: id, seat_number: seat_number, pnr: pnr_generate)
     end
   end
+
+  def self.price_amount(category)
+    find_by(name: category).price
+  end
 end

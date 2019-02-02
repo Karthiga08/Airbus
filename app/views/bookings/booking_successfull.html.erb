@@ -1,12 +1,19 @@
 <div class="booked-ticket text-center">
-  <h1 class="header-text">Ticket Details</h1>
+  <h1 class="header-text text-center">Ticket Details</h1>
   <div class="x-panel">
     <div class="user-details">
-      <p class="pull-left">
+      <p class="pull-left text-left">
         User Name: <%= @booking_user.name%>
-        <br>
+        <br/>
         Travel Date: <%= @booking_user&.seats&.first&.plane&.date%>
+        <br/>
+        Takeoff Time: <%= @booking_user&.seats&.first&.plane&.plane_takeoff%>
+        <br/>
+        Origin: <%= @booking_user.seats.first.plane.origin%>
+        <br/>
+        Destination: <%= @booking_user.seats.first.plane.destination%>
       </p>
+      <%= link_to "book return ticket", planes_path, class: 'btn btn-primary pull-right'%>
       <br>
     </div>
     <br>
@@ -18,15 +25,17 @@
           <th>Travel Class</th>
           <th>Seat Number</th>
           <th>PNR</th>
+          <th>Price($)</th>
         </tr>
         <% if @booking_seats.present? %>
           <% @booking_seats.each_with_index do |booking_seat, index|%>
             <tr>
-              <td><%= booking_seat.plane.name%></td>
-              <td><%= booking_seat.plane.plane_type%></td>
-              <td><%= booking_seat.seat_category.name%></td>
-              <td><%= booking_seat.seat_number%></td>
-              <td><%= booking_seat.pnr%></td>
+              <td class="text-left"><%= booking_seat.plane.name%></td>
+              <td class="text-left"><%= booking_seat.plane.plane_type%></td>
+              <td class="text-left"><%= booking_seat.seat_category.name%></td>
+              <td class="text-left"><%= booking_seat.seat_number%></td>
+              <td class="text-left"><%= booking_seat.pnr%></td>
+              <td class="text-left"><%= booking_seat.seat_category.price.to_i%></td>
             </tr>
           <% end %>
           <% else %>

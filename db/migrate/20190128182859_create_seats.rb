@@ -5,6 +5,7 @@ class CreateSeats < ActiveRecord::Migration[5.2]
       t.references :seat_category, index: true
       t.string :seat_number
       t.string :pnr
+      t.boolean :is_booked, default: false
       t.timestamps
     end
   end

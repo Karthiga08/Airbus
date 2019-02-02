@@ -9,6 +9,10 @@ Rails.application.routes.draw do
     end
   end
 
-  root to: 'bookings#index'
+  root to: 'planes#index'
   resources :planes
+
+  post '/cancel_seats' => 'bookings#cancel_seats', as: :cancel_seats
+  get '/seat_vacancies' => 'planes#seat_vacancies', as: :seat_vacancies
+  post '/upgrade_seats' => 'bookings#upgrade_seats', as: :upgrade_seats
 end
