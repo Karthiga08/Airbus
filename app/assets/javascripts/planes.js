@@ -14,6 +14,10 @@ function cancelTicket(seat, user){
   });
 }
 
+function closeModal(){
+  window.location.reload();
+}
+
 function loadUpperClass(element){
   data = $(element).data('categories')
   category_id = $(element).data('id')
@@ -60,22 +64,26 @@ function bookUpgradeTicket(user_id){
   });
   var seat_pnr = $("#pnr_number").text().trim();
 
-   $.ajax({
-    type: "POST",
-    url: "/upgrade_seats",
-    data: { user_id: user_id, selected_seats: booked_seats, pnr_number: seat_pnr },
-    success: function(data){
-      var seat_data = ''
-      $.each(data.seats, function (key, value) {
-        seat_data += '<li class="col-xs-6"><input type="checkbox" name="seat_id" value='+ value.id + '>'+value.seat_number+'<br></li>'
-      })
-      $('#vacancy-seat-list').html(seat_data);
-    },
-    error: function (response) {
-      console.log(response)
-    }
-  });
-
+  if (booked_seats) {
+    return(
+      $('#error_check').html('<span class="error">Please select any seats</span>')
+    )
+  }
+ $.ajax({
+  type: "POST",
+  url: "/upgrade_seats",
+  data: { user_id: user_id, selected_seats: booked_seats, pnr_number: seat_pnr },
+  success: function(data){
+    var seat_data = ''
+    $.each(data.seats, function (key, value) {
+      seat_data += '<li class="col-xs-6"><input type="checkbox" name="seat_id" value='+ value.id + '>'+value.seat_number+'<br></li>'
+    })
+    $('#vacancy-seat-list').html(seat_data);
+  },
+  error: function (response) {
+    console.log(response)
+  }
+});
 }
 
 

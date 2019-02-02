@@ -1,7 +1,6 @@
 <div class="plane-view text-center">
   <div class="x-panel">
     <h2>Your Booked Tickets</h2>
-    <%= link_to "Search a Plane", planes_path, class: 'btn btn-primary pull-right'%>
     <% @user_selected_seats.each do |seat| %>
       <div class= "x_panel assigned_course_list">
           <div class="row">
@@ -41,6 +40,7 @@
         </ul>
       </div>
       <%= user.submit'book ticket', class: 'btn btn-primary'%>
+      <%= link_to "cancel", planes_path, class: 'btn btn-primary'%>
     <%end%>
   </div>
 
@@ -56,6 +56,7 @@
           <label class="error">
            Note: If you upgrade your seats, You have to pay the price for respective class. Your old seat will be cancelled.
           </label>
+          <div id="error_check"></div>
         </div>
         <div class="form-group col-md-12 col-sm-12 col-xs-12">
           <label for="state">
@@ -70,8 +71,8 @@
           </ul>
         </div>
         <div class="text-center">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           <button type="button" class="btn btn-primary" onclick="bookUpgradeTicket('<%= @user.id%>');">Upgrade Ticket</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="closeModal();">Close</button>
         </div>
       </div>
     </div>

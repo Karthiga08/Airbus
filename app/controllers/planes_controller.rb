@@ -7,7 +7,7 @@ class PlanesController < ApplicationController
       if seat.present?
         redirect_to plane_path(seat&.plane&.id, pnr: params[:pnr])
       else
-        flash[:error] = "Your Pnr is not match with any Plane"
+        flash[:error] = "Your PNR is not match with any Plane"
       end
     end
   end

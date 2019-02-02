@@ -25,6 +25,7 @@
       <hr>
       <br>
       <%= form_tag("/planes", method: 'get') do%>
+      <div class="error"><%= flash[:error]%></div>
       <div class="row vertical-align">
         <div class="col-xs-6">
           <h5 class="pull-left">If already booked, search here the plane through your PNR Number</h5>
