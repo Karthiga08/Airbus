@@ -6,15 +6,15 @@
       <div class="row vertical-align">
         <div class="col-xs-4">
           <%= label_tag 'Origin' %>
-          <%= text_field_tag 'origin', "", class: 'form-control text-center', required: true, placeholder: 'where you start'%>
+          <%= text_field_tag 'origin', "", value: params[:origin], class: 'form-control text-center', required: true, placeholder: 'where you start'%>
         </div>
         <div class="col-xs-4">
           <%= label_tag 'Destination' %>
-          <%= text_field_tag 'destination', "", class: 'form-control text-center', required: true, placeholder: 'Where you go'%>
+          <%= text_field_tag 'destination', "", value: params[:destination], class: 'form-control text-center', required: true, placeholder: 'Where you go'%>
         </div>
         <div class="col-xs-4">
           <%= label_tag 'Date' %>
-          <%= date_field_tag 'date', "", class: 'form-control', required: true, placeholder: 'Enter Your PNR'%>
+          <%= date_field_tag 'date', "", value: params[:date], class: 'form-control', required: true, placeholder: 'Enter Your PNR'%>
         </div>
       </div>
       <br>
