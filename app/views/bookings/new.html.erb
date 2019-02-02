@@ -7,6 +7,7 @@
     <br>
     <%= form_for(@user, url: { controller: "bookings", action: "create" }, html: { :class => "form" }, method: "post") do |user| %>
       <div class="form-group col-md-12 col-sm-12 col-xs-12 booking-seats">
+        <div class="error"><%= flash[:error]%></div>
         <ul class="no-list-style">
           <%= user.collection_check_boxes(:user_seat_ids, @plane_seats || [], :id, :seat_number) do |b| %>
             <li class="col-md-<%= 12/b.object.seat_category.number_of_seat_in_row%>">
@@ -19,6 +20,7 @@
       <br/>
       <div class="row">
         <div class="col-xs-4">
+          <%= user.hidden_field :plane_id, value: params[:plane_id] %>
           <%= user.label "Name"%>
           <%= user.text_field :name, class: 'form-control text-center', required: true, placeholder: 'Enter Your Name' %>
         </div>

@@ -8,10 +8,17 @@ class BookingsController < ApplicationController
 
   def create
     @user = User.new booking_params
-    if @user.save
-      @user.create_user_seats(params[:user][:user_seat_ids])
-      redirect_to booking_successfull_booking_path(@user.id)
+    unless params[:user][:user_seat_ids].reject { |id| id.blank? }.empty?
+      if @user.save
+        @user.create_user_seats(params[:user][:user_seat_ids])
+        redirect_to booking_successfull_booking_path(@user.id)
+      else
+        render 'new'
+      end
     else
+      plane = Plane.find(params[:user][:plane_id])
+      @plane_seats = plane.seats
+      flash[:error] = "You should select the seat"
       render 'new'
     end
   end
