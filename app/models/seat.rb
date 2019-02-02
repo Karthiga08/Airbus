@@ -6,4 +6,10 @@ class Seat < ApplicationRecord
 
   has_many :user_seats, dependent: :destroy
   has_many :users, through: :user_seats, dependent: :destroy
+
+  delegate :name, to: :seat_category
+
+  def seat_users?
+    users.any?
+  end
 end

@@ -41,19 +41,19 @@
         </div>
         <div class="col-xs-4">
           <%= user.label "Phone Number"%>
-          <%= user.text_field :phone_number, class: 'form-control text-center', required: true, placeholder: 'Enter your phone number'%>
+          <%= user.number_field :phone_number, class: 'form-control text-center', required: true, placeholder: 'Enter your phone number'%>
         </div>
         <div class="col-xs-1">
           <%= user.label "Adult"%>
-          <%= user.text_field :adult_count, class: 'form-control text-center', placeholder: '12+'%>
+          <%= user.number_field :adult_count, class: 'form-control text-center', placeholder: '12+'%>
         </div>
         <div class="col-xs-1">
           <%= user.label "Child"%>
-          <%= user.text_field :child_count, class: 'form-control text-center', placeholder: '2 - 11'%>
+          <%= user.number_field :child_count, class: 'form-control text-center', placeholder: '2 - 11'%>
         </div>
         <div class="col-xs-1">
           <%= user.label "Infant"%>
-          <%= user.text_field :infant_count, class: 'form-control text-center', placeholder: '2-'%>
+          <%= user.number_field :infant_count, class: 'form-control text-center', placeholder: '2-'%>
         </div>
       </div>
       <br>

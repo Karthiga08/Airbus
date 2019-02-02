@@ -5,13 +5,13 @@
       <div class= "x_panel assigned_course_list">
           <div class="row">
             <div class="col-xs-3" id= "pnr_number" value="<%= seat.pnr.as_json%>">
-              PNR Number: <%= seat.pnr%>
+              PNR Number: <%= seat.pnr %>
             </div>
              <div class="col-xs-2">
-              Seat Number: <%= seat.seat_number%>
+              Seat Number: <%= seat.seat_number %>
             </div>
             <div class="col-xs-3">
-              <% unless ["First Class"].include?(seat.seat_category.name)%>
+              <% unless ["First Class"].include?(seat.name)%>
                 <%= link_to 'Upgrade Your Ticket', '#', class: 'img-dash bg-green-tag ', title: 'Upgrade ticket', data: { categories: @plane.seat_categories.reject{ |k| k.id >= seat.seat_category.id} },"data-toggle" => "modal", 'data-target' => '#upgradeTicket', 'data-id' => seat.id, :onclick => 'loadUpperClass(this)',disabled: true%>
               <% end %>
             </div>

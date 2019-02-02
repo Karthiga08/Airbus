@@ -10,6 +10,7 @@ class Plane < ApplicationRecord
 
   before_create :downcase_stuff
 
+  #search for flight
   def self.find_match(params)
     if params[:search].present?
       all.where("destination like ? and origin like ? and date =?", params[:destination].downcase, params[:origin].downcase, params[:date]) if params[:search].present?
@@ -18,16 +19,9 @@ class Plane < ApplicationRecord
     end
   end
 
-  def first_categories
-    seat_categories.where(name: 'First Class').first
-  end
-
-  def business_categories
-    seat_categories.where(name: 'Business Class').first
-  end
-
-  def economic_categories
-    seat_categories.where(name: 'Economic Class').first
+  #select all seats based on category
+  def plane_seats(category_id)
+    seats.where(seat_category_id: category_id)
   end
 
   def plane_takeoff
