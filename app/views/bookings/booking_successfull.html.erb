@@ -9,9 +9,9 @@
         <br/>
         Takeoff Time: <%= @booking_user&.seats&.first&.plane&.plane_takeoff%>
         <br/>
-        Origin: <%= @booking_user.seats.first.plane.origin%>
+        Origin: <%= @booking_user.seats.first.plane.origin_city.name%>
         <br/>
-        Destination: <%= @booking_user.seats.first.plane.destination%>
+        Destination: <%= @booking_user.seats.first.plane.destination_city.name%>
       </p>
       <%= link_to "book return ticket", planes_path, class: 'btn btn-primary pull-right'%>
       <br>

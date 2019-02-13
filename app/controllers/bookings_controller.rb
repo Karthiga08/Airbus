@@ -33,7 +33,7 @@ class BookingsController < ApplicationController
   def upgrade_seats
     @user = User.find(params[:user_id])
     @user.create_user_seats(params[:selected_seats])
-    seat = Seat.find_by(pnr: params["pnr_number"]&.split(": ").last)
+    seat = Seat.find(params[:seat_id])
     @user.user_cancel_seats(seat&.id)
     redirect_to booking_successfull_booking_path(@user.id)
   end

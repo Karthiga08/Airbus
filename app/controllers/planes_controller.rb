@@ -2,6 +2,8 @@ class PlanesController < ApplicationController
 
   def index
     @planes = Plane.find_match(params)
+    @load_origins = OriginCity.all
+    @load_destinations = DestinationCity.all
     flash[:error] = ''
     if params[:pnr].present?
       seat = Seat.find_by(pnr: params[:pnr])

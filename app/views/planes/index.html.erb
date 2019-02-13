@@ -6,11 +6,11 @@
       <div class="row vertical-align">
         <div class="col-xs-4">
           <%= label_tag 'Origin' %>
-          <%= text_field_tag 'origin', "", value: params[:origin], class: 'form-control text-center', required: true, placeholder: 'where you start'%>
+          <%= select_tag :origin_city_id, options_for_select([['All Origins', 0]] + @load_origins.map { |u| [u.name, u.id] }, params[:origin_city_id]), class: 'form-control text-center', id: 'result_origin'%>
         </div>
         <div class="col-xs-4">
           <%= label_tag 'Destination' %>
-          <%= text_field_tag 'destination', "", value: params[:destination], class: 'form-control text-center', required: true, placeholder: 'Where you go'%>
+          <%= select_tag :destination_city_id, options_for_select([['All Destinations', 0]] + @load_destinations.map { |u| [u.name, u.id] }, params[:destination_city_id]), class: 'form-control text-center', id: 'result_destination'%>
         </div>
         <div class="col-xs-4">
           <%= label_tag 'Date' %>
@@ -59,8 +59,8 @@
             <tr>
               <td class="text-left"><%= plane.name%></td>
               <td class="text-left"><%= plane.plane_type%></td>
-              <td class="text-left"><%= plane.origin%></td>
-              <td class="text-left"><%= plane.destination%></td>
+              <td class="text-left"><%= plane.origin_city.name%></td>
+              <td class="text-left"><%= plane.destination_city.name%></td>
               <td class="text-left"><%= plane.date%></td>
               <td class="text-left"><%= plane.plane_takeoff %></td>
               <td class="action_icon">

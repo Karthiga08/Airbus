@@ -1,19 +1,20 @@
 class Plane < ApplicationRecord
   #validations
-  validates_presence_of :name, :plane_type, :plane_time, :origin, :destination
+  validates_presence_of :name, :plane_type, :plane_time
 
   #associationss
   has_many :seat_categories, dependent: :destroy
   has_many :seats, dependent: :destroy
 
-  accepts_nested_attributes_for :seat_categories, allow_destroy: true
+  belongs_to :origin_city, dependent: :destroy
+  belongs_to :destination_city,  dependent: :destroy
 
-  before_create :downcase_stuff
+  accepts_nested_attributes_for :seat_categories, allow_destroy: true
 
   #search for flight
   def self.find_match(params)
     if params[:search].present?
-      all.where("destination like ? and origin like ? and date =?", params[:destination].downcase, params[:origin].downcase, params[:date]) if params[:search].present?
+      all.where("destination_city_id =? and origin_city_id =? and date =?", params[:destination_city_id], params[:origin_city_id], params[:date]) if params[:search].present?
     else
       all
     end
@@ -26,11 +27,5 @@ class Plane < ApplicationRecord
 
   def plane_takeoff
     plane_time&.strftime("at %I:%M%p")
-  end
-
-  private
-
-  def downcase_stuff
-    self.origin.downcase! && self.destination.downcase!
   end
 end

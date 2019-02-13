@@ -7,16 +7,19 @@
             <div class="col-xs-3" id= "pnr_number" value="<%= seat.pnr.as_json%>">
               PNR Number: <%= seat.pnr %>
             </div>
-             <div class="col-xs-2">
+             <div class="col-xs-3">
               Seat Number: <%= seat.seat_number %>
             </div>
-            <div class="col-xs-3">
+            <div class="col-xs-2">
               <% unless ["First Class"].include?(seat.name)%>
-                <%= link_to 'Upgrade Your Ticket', '#', class: 'img-dash bg-green-tag ', title: 'Upgrade ticket', data: { categories: @plane.seat_categories.reject{ |k| k.id >= seat.seat_category.id} },"data-toggle" => "modal", 'data-target' => '#upgradeTicket', 'data-id' => seat.id, :onclick => 'loadUpperClass(this)',disabled: true%>
+                <%= link_to 'Upgrade Ticket', '#', class: 'img-dash bg-green-tag ', title: 'Upgrade ticket', data: { seat_id: seat.id, categories: @plane.seat_categories.reject{ |k| k.id >= seat.seat_category.id} },"data-toggle" => "modal", 'data-target' => '#upgradeTicket', 'data-id' => seat.id, :onclick => 'loadUpperClass(this)',disabled: true%>
               <% end %>
             </div>
-            <div class="col-xs-3">
-              <button class="img-dash bg-red-tag" onclick="cancelTicket('<%=seat.id.as_json%>','<%=seat.users.first.id %>' );">Cancel your Ticket</button>
+            <div class="col-xs-2">
+              <%= link_to 'Change Ticket', '#', class: 'img-dash bg-blue-tag ', title: 'Change ticket', data: { seat_id: seat.id, plane_id: @plane.id,category_id: seat.seat_category.id },"data-toggle" => "modal", 'data-target' => '#changeTicket', 'data-id' => seat.id, :onclick => 'loadChangeClass(this)',disabled: true%>
+            </div>
+            <div class="col-xs-2">
+              <button class="img-dash bg-red-tag" onclick="cancelTicket('<%=seat.id.as_json%>','<%=seat.users.first.id %>' );">Cancel Ticket</button>
             </div>
           </div>
       </div>
@@ -35,6 +38,7 @@
             <li class="col-md-<%= 12/b.object.seat_category.number_of_seat_in_row%>">
               <%= b.check_box(checked: b&.object&.is_booked, disabled: b&.object&.is_booked) %>
               <%= b.label(id: "seat_booking"+"#{b.object.is_booked}") %>
+              <span class="price_amount">$<%= b.object.seat_category.price%></span>
             </li>
           <% end %>
         </ul>
@@ -63,6 +67,7 @@
             Category Name
             <star>*</star>
           </label>
+          <div id="upper_seat_value"></div>
           <select name="" id="category-list" class="form-control" onchange="changeCategoryList('<%= @plane.id.as_json%>')">
           </select>
         </div>
@@ -79,4 +84,31 @@
   </div>
 </div>
 
+<div class="modal fade delete-str" id="changeTicket" tabindex="-1" role="dialog" aria-labelledby="changeTicketLabel">
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content loginuser">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Change your class Ticket</h3>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="error">
+           Note: Now you can change you seats among your selected ticket class
+          </label>
+          <div id="error_check"></div>
+        </div>
+        <div id="seat_value"></div>
+        <div class="form-group col-md-12 col-sm-12 col-xs-12">
+          <ul class="no-list-style" id="vacancy-class-seat-list">
+          </ul>
+        </div>
+        <div class="text-center">
+          <button type="button" class="btn btn-primary" onclick="changeTicket('<%= @user.id%>');">Change Seat</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="closeModal();">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 </div>
